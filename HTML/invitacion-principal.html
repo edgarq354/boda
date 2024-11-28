@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestra Boda</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: black;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 637px; /* Ancho del contenido */
+            background-color: #fff;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            background-image: url('foto_01.jpg');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            height: 100vh;
+        }
+
+        .f_beiruti {
+            font-family: 'Beiruti', sans-serif;
+            font-size: 2rem;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 3px #000000e0;
+        }
+
+        .f_parisienne {
+            font-family: 'Parisienne', cursive;
+            font-size: 2rem;
+            text-shadow: 1px 1px 3px #000000e0;
+        }
+
+        .text-white {
+            color: white;
+        }
+
+        .fs_1 {
+            font-size: 1rem;
+        }
+
+        .fs_3 {
+            font-size: 2rem;
+        }
+
+        .fs_8 {
+            font-size: 4rem;
+        }
+
+        .fs_4 {
+            font-size: 2.4rem;
+        }
+
+        .border-top_ {
+            border-top: 2px solid white;
+            padding-top: 10px;
+        }
+
+        .border-bottom {
+            border-bottom: 2px solid white;
+            padding-bottom: 10px;
+        }
+
+        .countdown-table {
+            display: table;
+            margin: 20px auto;
+            font-size: 2rem;
+        }
+
+        .countdown-table div {
+            display: inline-block;
+            margin: 0 10px;
+        }
+
+        .button-event {
+            display: block;
+            background-color: #f5a623;
+            color: white;
+            font-size: 1.5rem;
+            padding: 15px 25px;
+            margin-top: 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .countdown-table td {
+            padding: 5px;
+        }
+
+        audio {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+    </style>
+
+    <link href="https://fonts.googleapis.com/css?family=Parisienne|Beiruti&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="section section1">
+            <div style="height: 70%;"></div>
+            <div class="f_beiruti fs_3">
+                <span class="border-top_ border-bottom">Nuestra Boda</span>
+            </div>
+            <div class="fs_4 f_parisienne text-white">Edgar & Mabel</div>
+            <div class="f_beiruti fs_4 text-white">
+                <div>18.01.2025</div>
+            </div>
+        </div>
+
+        <div class="section section2">
+            <div>Así que no son ya más dos, sino una sola carne; por tanto, lo que Dios juntó, no lo separe el hombre.</div>
+            <div class="f_beiruti fs_1">Mateo 19:6</div>
+        </div>
+
+        <div class="section section3">
+            <h2>Faltan:</h2>
+            <div class="countdown-table">
+                <div><span id="dias"></span> Días</div>
+                <div><span id="horas"></span> Hrs</div>
+                <div><span id="minutos"></span> Mins</div>
+                <div><span id="segundos"></span> Segs</div>
+            </div>
+            <a id="eventButton" class="button-event" href="#">El evento ya empezó</a>
+        </div>
+    </div>
+
+    <audio autoplay loop>
+        <source src="your_music.mp3" type="audio/mp3">
+        Tu navegador no soporta reproducción de audio.
+    </audio>
+
+    <script>
+        const weddingDate = new Date("2025-01-18T00:00:00").getTime();
+        const dias = document.getElementById("dias");
+        const horas = document.getElementById("horas");
+        const minutos = document.getElementById("minutos");
+        const segundos = document.getElementById("segundos");
+        const eventButton = document.getElementById("eventButton");
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+
+            if (distance > 0) {
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                 
+                dias.textContent = `${days}`;
+                horas.textContent = `${hours}`;
+                minutos.textContent = `${minutes}`;
+                segundos.textContent = `${seconds}`;
+            } else {
+                eventButton.style.display = "block";
+            }
+        }
+
+        setInterval(updateCountdown, 1000);
+
+        // Función para activar pantalla completa
+        function enterFullScreen() {
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+                document.documentElement.mozRequestFullScreen();
+            } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari y Opera
+                document.documentElement.webkitRequestFullscreen();
+            } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+                document.documentElement.msRequestFullscreen();
+            }
+        }
+
+        // Llamar la función para ir a pantalla completa al cargar
+        window.onload = function() {
+            enterFullScreen();
+        };
+    </script>
+</body>
+</html>
